@@ -53,6 +53,7 @@ jobs:
           mv result_data.json ${{ steps.artifact_name.outputs.artifact_file}}
 
       - name: Archive test results
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-result
