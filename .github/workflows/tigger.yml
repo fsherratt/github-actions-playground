@@ -19,3 +19,12 @@ jobs:
       - run: echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
       - run: echo ${{ needs.check-changes.outputs.changed_projects }} >> $GITHUB_STEP_SUMMARY
 
+  run-unit-tests:
+    needs: check-changes
+    strategy:
+      matrix:
+        work_dirs: ${{ needs.check-changes.outputs.changed_projects }}
+
+    uses: ./.github/workflows/python-test-workflow.yml
+      with:
+        work_directory: ${{ matrix.work_dirs }}
