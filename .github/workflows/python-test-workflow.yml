@@ -43,18 +43,18 @@ jobs:
       - name: Generate_Artifact_Name
         id: artifact_name
         run: |
-          echo project_name=$(echo ${{ inputs.work_directory }} | tr / _ ) \
+          echo artifact_file=result-$(echo ${{ inputs.work_directory }} | tr / - ) \
           >> $GITHUB_OUTPUT
 
       - name: Run unit tests
         working-directory: ${{ inputs.work_directory }}
         run: |
           poetry run python unittest_runner.py
-          mv result_data.json result_${{ steps.artifact_name.outputs.project_name}}.json
+          mv result_data.json ${{ steps.artifact_name.outputs.artifact_file}}
 
       - name: Archive test results
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-result
-          path: ${{ inputs.work_directory }}/result_data.json
+          path: ${{ inputs.work_directory }}/${{ steps.artifact_name.outputs.artifact_file}}
           retention-days: 1
