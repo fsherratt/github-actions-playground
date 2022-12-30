@@ -23,7 +23,7 @@ jobs:
     needs: check-changes
     strategy:
       matrix:
-        work_dirs: ${{ needs.check-changes.outputs.changed_projects }}
+        work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects) }}
 
     uses: ./.github/workflows/python-test-workflow.yml
     with:
