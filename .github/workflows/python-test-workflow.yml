@@ -45,9 +45,15 @@ jobs:
         run: |
           poetry run python unittest_runner.py
 
+      - name: Generate_Artifact_Name
+        id: artifact_name
+        run: |
+          echo ARTIFACT_NAME=$(echo unit-test-result-${{ inputs.work_directory }} | tr / _ \
+          >> GITHUB_ENV
+
       - name: Archive test results
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ echo unit-test-result-${{ inputs.work_directory }} | tr / _ }}
+          name: ${{ step.artifact_name.outputs.ARTIFACT_NAME}}
           path: ${{ inputs.work_directory }}/result_data.json
           retention-days: 1
