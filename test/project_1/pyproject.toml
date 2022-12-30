@@ -8,7 +8,7 @@ packages = [{include = "project_1"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-
+black = "*"
 
 [build-system]
 requires = ["poetry-core"]
