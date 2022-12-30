@@ -48,7 +48,7 @@ jobs:
       - name: Generate_Artifact_Name
         id: artifact_name
         run: |
-          echo ARTIFACT_NAME=$(echo unit-test-result-${{ inputs.work_directory }} | tr / _ \
+          echo ARTIFACT_NAME=$(echo unit-test-result-${{ inputs.work_directory }} | tr / _ ) \
           >> GITHUB_ENV
 
       - name: Archive test results
