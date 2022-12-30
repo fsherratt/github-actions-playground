@@ -9,7 +9,6 @@ packages = [{include = "project_1"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

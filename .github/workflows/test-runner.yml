@@ -1,0 +1,43 @@
+# This workflow will establish which workflows should be run and trigger them appropriately
+name: Test Runner
+
+on:
+  # Run every time a commit is made
+  push
+
+jobs:
+  check-changes:
+    uses: ./.github/workflows/check-changes.yml
+    with:
+      root_directory: ../../
+
+  run-unit-tests:
+    needs: check-changes
+    strategy:
+      fail-fast: false
+      matrix:
+        work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects) }}
+
+    uses: ./.github/workflows/python-test-workflow.yml
+    with:
+      work_directory: ${{ matrix.work_dirs }}
+
+  print-result:
+    if: always()
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    needs: [check-changes, run-unit-tests]
+    steps:
+      - run: echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: unit-test-result
+
+      - name: Display structure of downloaded files
+        run: |
+          echo "| Name | Total 💯 | Failures ❌ | Errors ❌ | Skipped ⏭️ | Passed ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :---: | :---: | :---: | :---: | :---: |" >> $GITHUB_STEP_SUMMARY
+          echo "$(for f in $(ls | grep .json); \
+          do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) |\n"' $f; \
+          done)" >> $GITHUB_STEP_SUMMARY

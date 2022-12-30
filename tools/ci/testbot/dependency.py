@@ -157,6 +157,9 @@ class ProjectModification:
 
         return set(affected_projects)
 
+    def remove_root_dir(self, input_set: set) -> list:
+        return [item[len(self.root_path) :] for item in input_set]
+
 
 def find_modified_files(root_path: str, comparison_branch: str = "dev") -> list[str]:
     """
@@ -168,7 +171,7 @@ def find_modified_files(root_path: str, comparison_branch: str = "dev") -> list[
     :return: List of files paths for files changed
     :rtype: list
     """
-    cmd = f"cd {root_path} && git diff --name-only --diff-filter=d {comparison_branch}"
+    cmd = f"cd {root_path} && git diff --name-only --diff-filter=ACMRT {comparison_branch}"
     output = os.popen(cmd).read()[:-1]
 
     if len(output) == 0:

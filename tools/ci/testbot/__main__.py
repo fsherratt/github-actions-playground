@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 
 from testbot.dependency import ProjectModification, find_modified_files
@@ -34,14 +35,18 @@ def main(root_path: str) -> list:
 
     python_dependency = ProjectModification(root_path)
 
-    files_changed = find_modified_files(root_path, comparison_branch="main")
-    subprojects_changed = python_dependency.find_modified_subprojects(files_changed)
-    affected_projects = python_dependency.find_affected_subprojects(files_changed)
+    files_changed = find_modified_files(root_path, comparison_branch="origin/main")
+    subprojects_changed = python_dependency.remove_root_dir(
+        python_dependency.find_modified_subprojects(files_changed)
+    )
+    affected_projects = python_dependency.remove_root_dir(
+        python_dependency.find_affected_subprojects(files_changed)
+    )
 
     # Print out the results of this function
     logging.info("Files modified `%s`", files_changed)
-    logging.info("In the subprojects `%s`", list(subprojects_changed))
-    logging.info("To test run the following subproject test suites `%s`", list(affected_projects))
+    logging.info("In the subprojects `%s`", subprojects_changed)
+    logging.info("To test run the following subproject test suites `%s`", affected_projects)
 
     return list(affected_projects)
 
@@ -57,4 +62,4 @@ if __name__ == "__main__":
     result = main(input_args.root_dir)
 
     if input_args.enable_output:
-        print(result)
+        print(json.dumps(result))
