@@ -37,6 +37,6 @@ jobs:
         run: |
           echo "| Total | Failures | Errors | Skipped | Passed |" >> $GITHUB_STEP_SUMMARY
           echo "| --- | --- | --- | --- | --- |" >> $GITHUB_STEP_SUMMARY
-          for f in $(ls | grep .json); \
-          do echo $(jq -j '. | "\(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed)"' $f) >> $GITHUB_STEP_SUMMARY; \
-          done )
+          echo "$(for f in $(ls | grep .json); \
+          do jq -j '. | "| \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) |\n"' $f; \
+          done)" >> $GITHUB_STEP_SUMMARY
