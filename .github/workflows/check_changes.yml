@@ -43,7 +43,7 @@ jobs:
           poetry install --no-interaction --no-dev
           poetry run pip list
 
-      - name: Run unit tests
+      - name: Find Changed Subprojects
         id: output
         working-directory: tools/ci
         run: |

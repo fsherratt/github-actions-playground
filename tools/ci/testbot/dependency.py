@@ -157,6 +157,9 @@ class ProjectModification:
 
         return set(affected_projects)
 
+    def remove_root_dir(self, input_set: set) -> list:
+        return [item[len(self.root_path) :] for item in input_set]
+
 
 def find_modified_files(root_path: str, comparison_branch: str = "dev") -> list[str]:
     """
