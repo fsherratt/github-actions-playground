@@ -1,4 +1,5 @@
 """Determine the affected subprojects due to changes in the current branch"""
+from typing import Iterable
 import glob
 import logging
 import os
@@ -157,8 +158,16 @@ class ProjectModification:
 
         return set(affected_projects)
 
-    def remove_root_dir(self, input_set: set) -> list:
-        return [item[len(self.root_path) :] for item in input_set]
+    def remove_root_dir(self, input_iterable: Iterable[str]) -> list:
+        """Remove the root directory from the start of all
+
+        :param input_iterable: Iterable of paths starting with `root_path`
+        :type input_iterable: Iterable
+
+        :return: List containing paths minus root_path
+        :rtype: list
+        """
+        return [item.split(self.root_path)[-1] for item in input_iterable]
 
 
 def find_modified_files(root_path: str, comparison_branch: str = "dev") -> list[str]:
