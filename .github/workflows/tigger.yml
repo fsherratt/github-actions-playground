@@ -26,5 +26,5 @@ jobs:
         work_dirs: ${{ needs.check-changes.outputs.changed_projects }}
 
     uses: ./.github/workflows/python-test-workflow.yml
-      with:
-        work_directory: ${{ matrix.work_dirs }}
+    with:
+      work_directory: ${{ matrix.work_dirs }}
