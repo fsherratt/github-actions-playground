@@ -7,7 +7,7 @@ on:
 
 jobs:
   check-changes:
-    uses: ./.github/workflows/check_changes.yml
+    uses: ./.github/workflows/check-changes.yml
     with:
       root_directory: ../../
 
