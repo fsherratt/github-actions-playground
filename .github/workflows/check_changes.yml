@@ -44,4 +44,4 @@ jobs:
         id: output
         working-directory: tools/ci
         run: |
-          echo changed_projects=$(poetry run python -m testbot -O --root-dir ${{root_directory}}) >> $GITHUB_OUTPUT
+          echo changed_projects=$(poetry run python -m testbot -O --root-dir ${{inputs.root_directory}}) >> $GITHUB_OUTPUT
