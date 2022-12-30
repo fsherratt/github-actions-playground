@@ -2,7 +2,7 @@ import unittest
 import json
 
 if __name__ == "__main__":
-    tests = unittest.defaultTestLoader.discover("./", pattern="test_*.py")
+    tests = unittest.defaultTestLoader.discover(".", pattern="test_*.py")
 
     # Setup and run the Test
     runner = unittest.TextTestRunner()
