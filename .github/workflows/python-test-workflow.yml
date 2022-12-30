@@ -33,7 +33,7 @@ jobs:
         run: |
           # We need to tell poetry to use correct python version
           poetry env use "3.10"
-          poetry install --no-interaction --no-dev
+          poetry install --no-interaction --only main
           poetry run pip list
 
       - name: Copy Runner
@@ -48,12 +48,12 @@ jobs:
       - name: Generate_Artifact_Name
         id: artifact_name
         run: |
-          echo ARTIFACT_NAME=$(echo unit-test-result-${{ inputs.work_directory }} | tr / _ ) \
-          >> GITHUB_ENV
+          echo art_name=$(echo unit-test-result-${{ inputs.work_directory }} | tr / _ )" \
+          >> $GITHUB_ENV
 
       - name: Archive test results
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.artifact_name.outputs.ARTIFACT_NAME}}
+          name: ${{ steps.artifact_name.outputs.art_name}}
           path: ${{ inputs.work_directory }}/result_data.json
           retention-days: 1
