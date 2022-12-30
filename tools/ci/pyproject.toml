@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "flyte_ci"
+version = "0.1.0"
+description = "Flyte CI Tooling"
+authors = ["Volant Autonomy <info@volantautonomy.com>"]
+
+[tool.poetry.dependencies]
+python = "3.10.*"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+coverage = "*"
+mypy = "*"
+pylint = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
