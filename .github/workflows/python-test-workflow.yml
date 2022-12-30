@@ -48,6 +48,6 @@ jobs:
       - name: Archive test results
         uses: actions/upload-artifact@v3
         with:
-          name: ${echo unit-test-result-${{ inputs.work_directory }} | tr / _}
+          name: ${{ echo unit-test-result-${{ inputs.work_directory }} | tr / _ }}
           path: ${{ inputs.work_directory }}/result_data.json
           retention-days: 1
