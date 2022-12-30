@@ -26,12 +26,10 @@ jobs:
       - name: Install code quality dependencies
         working-directory: ${{ inputs.work_directory }}
         run: | 
-          pip install black mypy
+          pip install black
           pip list
 
       - name: Run Black over codebase
         working-directory: ${{ inputs.work_directory }}
-        # This should cause this statement to always execute even if mypy fails
-        if: always()
         run: |
           black $(git ls-files "*.py") --check --line-length=100
