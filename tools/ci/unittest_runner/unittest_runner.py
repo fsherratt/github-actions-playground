@@ -1,7 +1,17 @@
-import unittest
+"""Run UnitTests but save the final results to JSON"""
+import argparse
 import json
+import unittest
+
+
+def get_input_args() -> argparse.Namespace:
+    args = argparse.ArgumentParser()
+    args.add_argument("--name", "-n", type=str, required=True, help="Unit test name")
+    return args.parse_args()
+
 
 if __name__ == "__main__":
+    args = get_input_args()
     tests = unittest.defaultTestLoader.discover(".", pattern="test_*.py")
 
     # Setup and run the Test
@@ -9,7 +19,8 @@ if __name__ == "__main__":
     test_results = runner.run(tests)
 
     # Passes the Result
-    result_value: dict[str, int] = {}
+    result_value: dict[str, int | str] = {}
+    result_value["Name"] = args.name
     result_value["Total"] = test_results.testsRun
     result_value["Failures"] = len(test_results.failures)
     result_value["Errors"] = len(test_results.errors)

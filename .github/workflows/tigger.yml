@@ -35,8 +35,8 @@ jobs:
 
       - name: Display structure of downloaded files
         run: |
-          echo "| Total | Failures | Errors | Skipped | Passed |" >> $GITHUB_STEP_SUMMARY
-          echo "| --- | --- | --- | --- | --- |" >> $GITHUB_STEP_SUMMARY
+          echo "| Name | Total 💯 | Failures ❌ | Errors ❌ | Skipped ⏭️ | Passed ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :---: | :---: | :---: | :---: | :---: |" >> $GITHUB_STEP_SUMMARY
           echo "$(for f in $(ls | grep .json); \
-          do jq -j '. | "| \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) |\n"' $f; \
+          do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) |\n"' $f; \
           done)" >> $GITHUB_STEP_SUMMARY
