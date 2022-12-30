@@ -30,7 +30,7 @@ def parse_args() -> argparse.Namespace:
     return args.parse_args()
 
 
-def main(root_path: str) -> list:
+def main(root_path: str) -> tuple[list, list]:
     """Main function"""
 
     python_dependency = ProjectModification(root_path)
@@ -48,7 +48,7 @@ def main(root_path: str) -> list:
     logging.info("In the subprojects `%s`", subprojects_changed)
     logging.info("To test run the following subproject test suites `%s`", affected_projects)
 
-    return list(affected_projects)
+    return subprojects_changed, affected_projects
 
 
 if __name__ == "__main__":
@@ -60,6 +60,9 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.WARNING)
 
     result = main(input_args.root_dir)
+    subprojects_changed, affected_projects = result
 
     if input_args.enable_output:
-        print(json.dumps(result))
+        output = {"changed": subprojects_changed, "affected": affected_projects}
+
+        print(json.dumps(output))

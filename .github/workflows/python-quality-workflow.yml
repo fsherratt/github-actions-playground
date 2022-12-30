@@ -1,0 +1,37 @@
+# This workflow will install Python dependencies and run unittests with a single version of Python
+# The workflow also run code-quality analysis across code
+# The `work_directory` input is used to specify the module working directory
+
+name: Python Code Quality Workflow
+
+on:
+  workflow_call:
+    inputs:
+      work_directory:
+        required: true
+        type: string
+
+jobs:
+  code-quality:
+    timeout-minutes: 2
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install code quality dependencies
+        working-directory: ${{ inputs.work_directory }}
+        run: | 
+          pip install black mypy
+          pip list
+
+      - name: Run Black over codebase
+        working-directory: ${{ inputs.work_directory }}
+        # This should cause this statement to always execute even if mypy fails
+        if: always()
+        run: |
+          black $(git ls-files "*.py") --check --line-length=100

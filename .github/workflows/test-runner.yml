@@ -16,9 +16,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects) }}
+        work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects).affected }}
 
     uses: ./.github/workflows/python-test-workflow.yml
+    with:
+      work_directory: ${{ matrix.work_dirs }}
+
+  run-quality:
+    needs: check-changes
+    strategy:
+      fail-fast: false
+      matrix:
+        work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects).changed }}
+
+    uses: ./.github/workflows/python-quality-workflow.yml
     with:
       work_directory: ${{ matrix.work_dirs }}
 
