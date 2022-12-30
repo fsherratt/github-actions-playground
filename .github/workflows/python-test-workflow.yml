@@ -36,7 +36,19 @@ jobs:
           poetry install --no-interaction --no-dev
           poetry run pip list
 
+      - name: Copy Runner
+        run: |
+          cp tools/ci/unittest_runner.py ${{ inputs.work_directory }}
+          ls
+
       - name: Run unit tests
         working-directory: ${{ inputs.work_directory }}
         run: |
-          poetry run python -m unittest
+          poetry run python unittest_runner.py
+
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-result-${{ inputs.work_directory }}
+          path: ${{ inputs.work_directory }}/result_data.json
+          retention-days: 1

@@ -21,6 +21,7 @@ jobs:
 
   run-unit-tests:
     needs: check-changes
+    continue-on-error: true
     strategy:
       matrix:
         work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects) }}
@@ -28,3 +29,6 @@ jobs:
     uses: ./.github/workflows/python-test-workflow.yml
     with:
       work_directory: ${{ matrix.work_dirs }}
+
+  overall-result:
+    needs: run-unit-tests:
