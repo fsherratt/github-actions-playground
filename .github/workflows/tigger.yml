@@ -21,8 +21,8 @@ jobs:
 
   run-unit-tests:
     needs: check-changes
-    continue-on-error: true
     strategy:
+      continue-on-error: true
       matrix:
         work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects) }}
 

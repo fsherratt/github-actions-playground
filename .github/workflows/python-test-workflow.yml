@@ -46,9 +46,9 @@ jobs:
         run: |
           poetry run python unittest_runner.py
 
-      # - name: Archive test results
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: unit-test-result-${{ inputs.work_directory }}
-      #     path: ${{ inputs.work_directory }}/result_data.json
-      #     retention-days: 1
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-result-${{ inputs.work_directory }}
+          path: ${{ inputs.work_directory }}/result_data.json
+          retention-days: 1
