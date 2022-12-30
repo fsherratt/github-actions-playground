@@ -54,6 +54,6 @@ jobs:
       - name: Archive test results
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ step.artifact_name.outputs.ARTIFACT_NAME}}
+          name: ${{ steps.artifact_name.outputs.ARTIFACT_NAME}}
           path: ${{ inputs.work_directory }}/result_data.json
           retention-days: 1
