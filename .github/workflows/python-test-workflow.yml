@@ -53,6 +53,7 @@ jobs:
       
       - name: Rename result file
         if: always()
+        working-directory: ${{ inputs.work_directory }}
         run: mv result_data.json ${{ steps.artifact_name.outputs.artifact_file}}
 
       - name: Archive test results
