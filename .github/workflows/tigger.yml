@@ -11,7 +11,7 @@ jobs:
     with:
       root_directory: ../../
   
-  python-quality:
+  print-changes:
     timeout-minutes: 1
     runs-on: ubuntu-latest
     needs: check-changes
