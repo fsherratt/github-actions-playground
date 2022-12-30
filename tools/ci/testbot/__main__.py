@@ -61,4 +61,8 @@ if __name__ == "__main__":
     result = main(input_args.root_dir)
 
     if input_args.enable_output:
-        print(result)
+        print("[", end="")
+        for item in result[:-1]:
+            print(f"{item}, ", end="")
+        print(f"{result[-1]}", end="")
+        print("]")
