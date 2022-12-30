@@ -168,7 +168,7 @@ def find_modified_files(root_path: str, comparison_branch: str = "dev") -> list[
     :return: List of files paths for files changed
     :rtype: list
     """
-    cmd = f"cd {root_path} && git diff --name-only --diff-filter=d {comparison_branch}"
+    cmd = f"cd {root_path} && git diff --name-only --diff-filter=d {comparison_branch}..."
     output = os.popen(cmd).read()[:-1]
 
     if len(output) == 0:
