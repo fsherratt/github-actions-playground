@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "project-2"
+version = "0.1.0"
+description = "Test Project 2"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "project_2"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+project_1 = { path = "./../project_1", develop = true }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
