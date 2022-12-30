@@ -20,7 +20,7 @@ jobs:
   #     - run: echo ${{ needs.check-changes.outputs.changed_projects }} >> $GITHUB_STEP_SUMMARY
 
   run-unit-tests:
-    needs: check-changes
+    # needs: check-changes
     strategy:
       matrix:
         work_dirs: [test/project_1]
