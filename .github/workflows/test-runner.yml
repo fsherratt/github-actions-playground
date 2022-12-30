@@ -1,5 +1,5 @@
 # This workflow will establish which workflows should be run and trigger them appropriately
-name: Tigger
+name: Test Runner
 
 on:
   # Run every time a commit is made
