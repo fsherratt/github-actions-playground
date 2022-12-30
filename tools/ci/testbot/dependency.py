@@ -16,13 +16,9 @@ class ProjectModification:
         self.subproject_connections = {}
 
         for subproject in self.subprojects:
-            self.subproject_connections[subproject] = self.find_editable_installs(
-                subproject
-            )
+            self.subproject_connections[subproject] = self.find_editable_installs(subproject)
 
-        self.dependency_graph = self.generate_dependency_graph(
-            self.subproject_connections
-        )
+        self.dependency_graph = self.generate_dependency_graph(self.subproject_connections)
 
     def find_subprojects(self) -> set[str]:
         """
@@ -31,9 +27,7 @@ class ProjectModification:
         """
         subprojects = []
 
-        subprojects.extend(
-            glob.glob(self.root_path + "**/pyproject.toml", recursive=True)
-        )
+        subprojects.extend(glob.glob(self.root_path + "**/pyproject.toml", recursive=True))
 
         subprojects = [str(pathlib.Path(project).parent) for project in subprojects]
         return set(subprojects)
@@ -64,19 +58,15 @@ class ProjectModification:
                     editable_lines.add(editable_path)
 
         logging.info(
-            "Project `%s` contains %d editable installs ",
+            "Project `%s` contains %d editable installs `%s`",
             project_path,
             len(editable_lines),
+            list(editable_lines),
         )
-
-        for install in editable_lines:
-            logging.info(" |- imports `%s`", install)
 
         return editable_lines
 
-    def generate_dependency_graph(
-        self, nodes: dict[str, set[str]]
-    ) -> dict[str, set[str]]:
+    def generate_dependency_graph(self, nodes: dict[str, set[str]]) -> dict[str, set[str]]:
         """
         Generate a graph of the project dependencies
 

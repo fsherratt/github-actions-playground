@@ -4,7 +4,7 @@ import logging
 from testbot.dependency import ProjectModification, find_modified_files
 
 
-def setup_argparse() -> argparse.ArgumentParser:
+def parse_args() -> argparse.Namespace:
     """
     Setup argument parsing
 
@@ -12,10 +12,21 @@ def setup_argparse() -> argparse.ArgumentParser:
     :rtype:
     """
     args = argparse.ArgumentParser(allow_abbrev=False)
-    args.add_argument("--root-dir", nargs=1, type=str)
-    args.add_argument("-O", "--Enable-Output", nargs="?", const=False, type=bool)
+    args.add_argument("--root-dir", type=str, help="Set root directory to search from")
+    args.add_argument(
+        "-O",
+        "--enable-output",
+        action=argparse.BooleanOptionalAction,
+        help="Print final output",
+    )
+    args.add_argument(
+        "-V",
+        "--verbose",
+        action=argparse.BooleanOptionalAction,
+        help="Set Logging Level to Verbose",
+    )
 
-    return args.parse_known_args()
+    return args.parse_args()
 
 
 def main(root_path: str) -> list:
@@ -28,26 +39,22 @@ def main(root_path: str) -> list:
     affected_projects = python_dependency.find_affected_subprojects(files_changed)
 
     # Print out the results of this function
-    logging.info("\nFiles modified")
-    logging.info("----------")
-    for item in files_changed:
-        logging.info(item)
-
-    logging.info("\nSubprojects Changed")
-    logging.info("----------")
-    logging.info(list(subprojects_changed))
-
-    logging.info("\nRequires the following subproject test suites to be run")
-    logging.info("----------")
-    logging.info(list(affected_projects))
+    logging.info("Files modified `%s`", files_changed)
+    logging.info("In the subprojects `%s`", list(subprojects_changed))
+    logging.info("To test run the following subproject test suites `%s`", list(affected_projects))
 
     return list(affected_projects)
 
 
 if __name__ == "__main__":
-    ROOT_PATH = "../../"
+    input_args = parse_args()
 
-    args = setup_argparse()
-    logging.basicConfig(level=logging.INFO)
+    if input_args.verbose:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.WARNING)
 
-    print(main(ROOT_PATH))
+    result = main(input_args.root_dir)
+
+    if input_args.enable_output:
+        print(result)
