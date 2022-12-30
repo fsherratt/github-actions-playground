@@ -34,7 +34,7 @@ def main(root_path: str) -> list:
 
     python_dependency = ProjectModification(root_path)
 
-    files_changed = find_modified_files(root_path, comparison_branch="main")
+    files_changed = find_modified_files(root_path, comparison_branch="origin/main")
     subprojects_changed = python_dependency.find_modified_subprojects(files_changed)
     affected_projects = python_dependency.find_affected_subprojects(files_changed)
 
