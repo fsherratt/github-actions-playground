@@ -29,6 +29,3 @@ jobs:
     uses: ./.github/workflows/python-test-workflow.yml
     with:
       work_directory: ${{ matrix.work_dirs }}
-
-  overall-result:
-    needs: run-unit-tests:
