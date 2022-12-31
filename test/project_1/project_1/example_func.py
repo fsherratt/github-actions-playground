@@ -8,4 +8,5 @@ def add(a: int, b: int):
     :param b: Second number to add
     :type b: int
     """
-    return a + b
+    result = a + b
+    return result
