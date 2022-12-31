@@ -20,7 +20,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects).affected }}
+        work_dirs: []
+        # work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects).affected }}
 
     uses: ./.github/workflows/python-test-workflow.yml
     with:
