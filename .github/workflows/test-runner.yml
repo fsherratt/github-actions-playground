@@ -54,7 +54,7 @@ jobs:
           echo "| Name | Total 💯 | Failures ❌ | Errors ❌ | Skipped ⏭️ | Passed ✅ | Coverage 🧪|" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :---: | :---: | :---: | :---: | :---: | :---: |" >> $GITHUB_STEP_SUMMARY
           echo "$(for f in $(find ut_tmp -name 'py_ut_*.json'); \
-          do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) | \(.Coverage) |\n"' $f; \
+          do jq -j '. | "| **\(.Name)** | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) | \(.Coverage) |\n"' $f; \
           done)" >> $GITHUB_STEP_SUMMARY
           echo SCRIPT_OUTPUT=$(jq -Rs . < $GITHUB_STEP_SUMMARY) >> $GITHUB_ENV
 
