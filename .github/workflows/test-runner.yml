@@ -44,11 +44,12 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: unit-test-result
+          path: ut_tmp
 
       - name: Display structure of downloaded files
         run: |
           echo "| Name | Total 💯 | Failures ❌ | Errors ❌ | Skipped ⏭️ | Passed ✅ |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :---: | :---: | :---: | :---: | :---: |" >> $GITHUB_STEP_SUMMARY
-          echo "$(for f in $(ls | grep .json); \
+          echo "$(for f in $(ls ut_tmp | grep .json); \
           do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) |\n"' $f; \
           done)" >> $GITHUB_STEP_SUMMARY

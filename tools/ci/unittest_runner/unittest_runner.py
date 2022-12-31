@@ -33,7 +33,8 @@ if __name__ == "__main__":
     )
 
     # Save the result to a JSON-file.
-    result_file_name = "result_data.json"
+    name = args.name.replace("/", "_")
+    result_file_name = f"py_ut_{name}.json"
     with open(result_file_name, "w") as fp:
         json.dump(result_value, fp)
 
