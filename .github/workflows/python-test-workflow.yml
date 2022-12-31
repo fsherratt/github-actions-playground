@@ -38,8 +38,7 @@ jobs:
 
       - name: Setup Unittest Runner
         run: |
-          cp tools/ci/unittest_runner/unittest_runner.py \
-          ${{ inputs.work_directory }}/unittest_runner.py \
+          cp tools/ci/unittest_runner/unittest_runner.py ${{ inputs.work_directory }}/unittest_runner.py && \
           poetry add coverage
 
       - name: Run unit tests
