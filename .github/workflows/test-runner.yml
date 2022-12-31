@@ -58,6 +58,10 @@ jobs:
   #         done)" >> $GITHUB_STEP_SUMMARY
   #         echo SCRIPT_OUTPUT=$(jq -Rs . < $GITHUB_STEP_SUMMARY) >> $GITHUB_ENV
 
+      - name: Create test ENV
+        run: |
+           echo SCRIPT_OUTPUT="| Name | Total 💯 | Failures ❌ |\n| :--- | :---: | :---: |\n|1|2|3\n" >> $GITHUB_ENV
+
       - name: Add PR comment
         uses: actions/github-script@v6
         with:
@@ -66,5 +70,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: "| Name | Total 💯 | Failures ❌ |\n| :--- | :---: | :---: |\n|1|2|3\n"
+              body: "${{env.SCRIPT_OUTPUT}}"
             })
