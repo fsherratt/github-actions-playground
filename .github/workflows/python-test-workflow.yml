@@ -54,3 +54,11 @@ jobs:
           name: unit-test-result
           path: ${{ inputs.work_directory }}/py_ut_*.json
           retention-days: 1
+
+      - name: Archive Coverage results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-coverage
+          path: ${{ inputs.work_directory }}/py_cov_*.md
+          retention-days: 5

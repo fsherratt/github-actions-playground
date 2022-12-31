@@ -42,6 +42,9 @@ if __name__ == "__main__":
 
     # Parse Coverage Results
     try:
+        with open(f"py_cov_{name}.md", mode="w") as file:
+            cov.report(output_format="markdown", file=file)
+
         total = cov.json_report(outfile=f"py_cov_{name}.json", pretty_print=True)
         result_value["Coverage"] = f"{total:.1f}%"
 
