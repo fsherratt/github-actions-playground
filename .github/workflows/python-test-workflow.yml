@@ -34,32 +34,31 @@ jobs:
           # We need to tell poetry to use correct python version
           poetry env use "3.10"
           poetry install --no-interaction --only main
+          poetry add coverage
           poetry run pip list
 
-      - name: Copy Runner
+      - name: Setup Unittest Runner
         run: |
           cp tools/ci/unittest_runner/unittest_runner.py \
-          ${{ inputs.work_directory }}/unittest_runner.py 
-
-      - name: Generate_Artifact_Name
-        id: artifact_name
-        run: |
-          echo artifact_file=result-$(echo ${{ inputs.work_directory }}.json | tr / - ) \
-          >> $GITHUB_OUTPUT
+          ${{ inputs.work_directory }}/unittest_runner.py
+          
 
       - name: Run unit tests
         working-directory: ${{ inputs.work_directory }}
         run: poetry run python unittest_runner.py --name ${{ inputs.work_directory }}
       
-      - name: Rename result file
-        if: always()
-        working-directory: ${{ inputs.work_directory }}
-        run: mv result_data.json ${{ steps.artifact_name.outputs.artifact_file}}
-
       - name: Archive test results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-result
-          path: ${{ inputs.work_directory }}/${{ steps.artifact_name.outputs.artifact_file}}
+          path: ${{ inputs.work_directory }}/py_ut_*.json
           retention-days: 1
+
+      - name: Archive Coverage results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-coverage
+          path: ${{ inputs.work_directory }}/py_cov_*.md
+          retention-days: 5

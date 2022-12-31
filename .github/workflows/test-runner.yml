@@ -2,8 +2,12 @@
 name: Test Runner
 
 on:
-  # Run every time a commit is made
-  push
+  # Run during pull request containing python files
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - "**/*.py"
 
 jobs:
   check-changes:
@@ -16,9 +20,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects) }}
+        work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects).affected }}
 
     uses: ./.github/workflows/python-test-workflow.yml
+    with:
+      work_directory: ${{ matrix.work_dirs }}
+
+  run-quality:
+    needs: check-changes
+    strategy:
+      fail-fast: false
+      matrix:
+        work_dirs: ${{ fromJSON(needs.check-changes.outputs.changed_projects).changed }}
+
+    uses: ./.github/workflows/python-quality-workflow.yml
     with:
       work_directory: ${{ matrix.work_dirs }}
 
@@ -33,11 +48,12 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: unit-test-result
+          path: ut_tmp
 
       - name: Display structure of downloaded files
         run: |
-          echo "| Name | Total 💯 | Failures ❌ | Errors ❌ | Skipped ⏭️ | Passed ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| :--- | :---: | :---: | :---: | :---: | :---: |" >> $GITHUB_STEP_SUMMARY
-          echo "$(for f in $(ls | grep .json); \
-          do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) |\n"' $f; \
+          echo "| Name | Total 💯 | Failures ❌ | Errors ❌ | Skipped ⏭️ | Passed ✅ | Coverage 🧪|" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :---: | :---: | :---: | :---: | :---: | :---: |" >> $GITHUB_STEP_SUMMARY
+          echo "$(for f in $(find ut_tmp -name 'py_ut_*.json'); \
+          do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) | \(.Coverage) |\n"' $f; \
           done)" >> $GITHUB_STEP_SUMMARY
