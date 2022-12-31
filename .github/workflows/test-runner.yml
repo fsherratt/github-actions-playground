@@ -50,6 +50,6 @@ jobs:
         run: |
           echo "| Name | Total 💯 | Failures ❌ | Errors ❌ | Skipped ⏭️ | Passed ✅ |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :---: | :---: | :---: | :---: | :---: |" >> $GITHUB_STEP_SUMMARY
-          echo "$(for f in $(ls ut_tmp | grep .json); \
+          echo "$(for f in $(find ut_tmp -name 'py_ut_*.json'); \
           do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) |\n"' $f; \
           done)" >> $GITHUB_STEP_SUMMARY
