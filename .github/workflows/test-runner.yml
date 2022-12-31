@@ -56,7 +56,7 @@ jobs:
           echo "$(for f in $(find ut_tmp -name 'py_ut_*.json'); \
           do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) | \(.Coverage) |\n"' $f; \
           done)" >> $GITHUB_STEP_SUMMARY
-          echo SCRIPT_OUTPUT=$(cat $GITHUB_STEP_SUMMARY) >> $GITHUB_ENV
+          echo SCRIPT_OUTPUT=$(sed 's/$/<br>/' $GITHUB_STEP_SUMMARY) >> $GITHUB_ENV
 
       - name: Add PR comment
         uses: actions/github-script@v6
