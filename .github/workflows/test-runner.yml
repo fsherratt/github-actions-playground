@@ -43,24 +43,20 @@ jobs:
     runs-on: ubuntu-latest
     # needs: [check-changes, run-unit-tests]
     steps:
-  #     - name: Download Resources
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: unit-test-result
-  #         path: ut_tmp
+      # - name: Download Resources
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: unit-test-result
+      #     path: ut_tmp
 
-  #     - name: Create summary table
-  #       run: |
-  #         echo "| Name | Total 💯 | Failures ❌ | Errors ❌ | Skipped ⏭️ | Passed ✅ | Coverage 🧪|" >> $GITHUB_STEP_SUMMARY
-  #         echo "| :--- | :---: | :---: | :---: | :---: | :---: | :---: |" >> $GITHUB_STEP_SUMMARY
-  #         echo "$(for f in $(find ut_tmp -name 'py_ut_*.json'); \
-  #         do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) | \(.Coverage) |\n"' $f; \
-  #         done)" >> $GITHUB_STEP_SUMMARY
-  #         echo SCRIPT_OUTPUT=$(jq -Rs . < $GITHUB_STEP_SUMMARY) >> $GITHUB_ENV
-
-      - name: Create test ENV
+      - name: Create summary table
         run: |
-           echo SCRIPT_OUTPUT="| Name | Total 💯 | Failures ❌ |\n| :--- | :---: | :---: |\n|1|2|3\n" >> $GITHUB_ENV
+          echo "| Name | Total 💯 | Failures ❌ | Errors ❌ | Skipped ⏭️ | Passed ✅ | Coverage 🧪|" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :---: | :---: | :---: | :---: | :---: | :---: |" >> $GITHUB_STEP_SUMMARY
+          # echo "$(for f in $(find ut_tmp -name 'py_ut_*.json'); \
+          # do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) | \(.Coverage) |\n"' $f; \
+          # done)" >> $GITHUB_STEP_SUMMARY
+          echo SCRIPT_OUTPUT=$(jq -Rs . < $GITHUB_STEP_SUMMARY) >> $GITHUB_ENV
 
       - name: Add PR comment
         uses: actions/github-script@v6
