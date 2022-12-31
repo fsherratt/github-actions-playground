@@ -15,13 +15,17 @@ if __name__ == "__main__":
     args = get_input_args()
     name = args.name.replace("/", "_")
 
-    cov = coverage.Coverage(omit=["**/test_*.py", ".venv/*"], include=f"./**/*.py")
+    cov = coverage.Coverage(
+        omit=["**/test_*.py", ".venv/*"],
+        include="./**/*.py",
+        cover_pylib=False,
+    )
+    cov.start()
 
     # Setup and run the Test
     runner = unittest.TextTestRunner(failfast=False)
     tests = unittest.defaultTestLoader.discover(".")
 
-    cov.start()
     test_results = runner.run(tests)
     cov.stop()
     cov.save()
@@ -46,6 +50,7 @@ if __name__ == "__main__":
             cov.report(output_format="markdown", file=file)
 
         total = cov.json_report(outfile=f"py_cov_{name}.json", pretty_print=True)
+        print(total)
         result_value["Coverage"] = f"{total:.1f}%"
 
     except Exception as err:
