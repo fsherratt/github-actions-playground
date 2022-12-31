@@ -57,3 +57,13 @@ jobs:
           echo "$(for f in $(find ut_tmp -name 'py_ut_*.json'); \
           do jq -j '. | "| \(.Name) | \(.Total) | \(.Failures) | \(.Errors) | \(.Skipped) | \(.Passed) | \(.Coverage) |\n"' $f; \
           done)" >> $GITHUB_STEP_SUMMARY
+
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Hello, World'
+            })
