@@ -16,9 +16,9 @@ if __name__ == "__main__":
     name = args.name.replace("/", "_")
 
     cov = coverage.Coverage(omit=["**/test_*.py", ".venv/*"], include=f"./**/*.py")
-    # Setup and run the Test
-    runner = unittest.TextTestRunner()
 
+    # Setup and run the Test
+    runner = unittest.TextTestRunner(failfast=False)
     tests = unittest.defaultTestLoader.discover(".")
 
     cov.start()
