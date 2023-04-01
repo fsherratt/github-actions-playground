@@ -21,8 +21,8 @@ jobs:
       
       - uses: fsherratt/github-actions-playground/workflows/install-poetry@composable-actions
         with:
-          python-version: '3.10'
-          working-directory: ${{ inputs.work_directory }}
+          python_version: '3.10'
+          work_directory: ${{ inputs.work_directory }}
 
       - name: Install poetry dependencies
         working-directory: ${{ inputs.work_directory }}
