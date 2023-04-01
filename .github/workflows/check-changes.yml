@@ -28,7 +28,7 @@ jobs:
       - uses: fsherratt/github-actions-playground/workflows/install-poetry@composable-actions
         with:
           python_version: '3.10'
-          working_directory: '\tools\ci\'
+          work_directory: '\tools\ci\'
 
       - name: Find Changed Subprojects
         id: output
