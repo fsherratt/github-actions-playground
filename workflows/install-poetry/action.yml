@@ -1,0 +1,32 @@
+name: 'Install Poetry'
+description: 'Setup and install poetry'
+inputs:
+  work_directory:
+    required: true
+    description: The file path to the folder within which to install poetry environment
+  python_version:
+    type: string
+    description: Python version string for example 3.10
+    default: '3.10'
+  poetry_arguments:
+    type: string
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Poetry
+      run: pipx install poetry
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python_version }}
+        cache: 'poetry'
+        cache-dependency-path: |
+          ${{ inputs.work_directory }}/poetry.lock
+
+    - name: Install poetry dependencies
+      working-directory: ${{ inputs.work_directory }}
+      run: |
+        poetry env use ${{ inputs.python_version }}
+        poetry install --no-interaction ${{ inputs.poetry_arguments }}
