@@ -16,6 +16,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Poetry
+      shell: bash
       run: pipx install poetry
 
     - uses: actions/setup-python@v4
@@ -27,6 +28,13 @@ runs:
 
     - name: Install poetry dependencies
       working-directory: ${{ inputs.work_directory }}
+      shell: bash
       run: |
         poetry env use ${{ inputs.python_version }}
         poetry install --no-interaction ${{ inputs.poetry_arguments }}
+
+    - name: Print installed packages
+      working-directory: ${{ inputs.work_directory }}
+      shell: bash
+      run: |
+        poetry run pip list
