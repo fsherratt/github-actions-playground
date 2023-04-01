@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - uses: github-actions-playground/workflows/install-poetry@composable-actions
+      - uses: fsherratt/github-actions-playground/workflows/install-poetry@composable-actions
         with:
           python-version: '3.10'
           working-directory: ${{ inputs.work_directory }}
