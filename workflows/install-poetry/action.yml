@@ -2,8 +2,9 @@ name: 'Install Poetry'
 description: 'Setup and install poetry'
 inputs:
   work_directory:
-    required: true
+    type: string
     description: The file path to the folder within which to install poetry environment
+    default: '.'
   python_version:
     type: string
     description: Python version string for example 3.10
