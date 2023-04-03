@@ -1,0 +1,38 @@
+name: 'Build Python Docs'
+description: 'Build Python Sphinx documentation'
+inputs:
+  working_directory:
+    type: string
+    description: The path to the repository folder containing the poetry environment
+    default: '.'
+  sphinx_arguments:
+    type: string
+    description: Command line arguments to pass to sphinx install, see python-poetry.org/docs/cli/#install
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Make temporary storage location
+      shell: bash
+      run: | 
+        echo TMP_DIR=${mktemp -d}
+
+    - name: Build documentation
+      working-directory: ${{ inputs.working_directory }}
+      shell: bash
+      run: |
+        poetry run sphinx-build -b html docs/ ${{ env.TMP_DIR }}/build
+
+    - name: Compress Documentation
+      shell: bash
+      run: |
+        tar -zcvf ${{ env.TMP_DIR }}/archive.tar.gz ${{ env.TMP_DIR }}/build
+
+    - name: Archive test results
+      uses: actions/upload-artifact@v3
+      shell: bash
+      with:
+        name: unit-test-result
+        path: ${{ env.TMP_DIR }}/archive.tar.gz
+        retention-days: 1

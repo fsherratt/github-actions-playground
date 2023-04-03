@@ -1,0 +1,25 @@
+# This workflow will establish which workflows should be run and trigger them appropriately
+name: Test Runner
+
+on:
+  # Run during pull request containing python files
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - "test/project_2/*"
+
+jobs:
+  build_docs:
+    timeout-minutes: 2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fsherratt/github-actions-playground/workflows/install-poetry@composable-actions
+        with:
+          python_version: '3.10'
+          working_directory: test/project_2
+
+      - uses: fsherratt/github-actions-playground/workflows/python-docs@composable-actions
+        with:
+          working_directory: test/project_2
+

@@ -16,6 +16,8 @@ black = "*"
 coverage = "*"
 mypy = "*"
 pylint = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
 
 [build-system]
 requires = ["poetry-core"]
