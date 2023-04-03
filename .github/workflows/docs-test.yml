@@ -6,8 +6,6 @@ on:
   pull_request:
     branches:
       - "main"
-    paths:
-      - "test/project_2/*"
 
 jobs:
   build_docs:
