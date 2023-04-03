@@ -1,17 +1,24 @@
 name: 'Install Poetry'
 description: 'Setup and install poetry'
 inputs:
-  work_directory:
+  working_directory:
     type: string
     description: The path to the repository folder containing the poetry environment
     default: '.'
+
   python_version:
     type: string
     description: Python version string, for example `3.10`
     default: '3.10'
+
+  poetry_version:
+    type: string
+    description: Poetry version string to install, for example `1.4.2`, default is latest version
+    default: '*'
+
   poetry_arguments:
     type: string
-    description: Command line arguments to pass to poetry install, see python-poetry.org/docs/cli/#install
+    description: Addition CLI arguments for poetry install, see python-poetry.org/docs/cli/#install
     default: ''
 
 runs:
@@ -19,24 +26,22 @@ runs:
   steps:
     - name: Install Poetry
       shell: bash
-      run: pipx install poetry
+      run: pipx install poetry=${{ inputs.poetry_version }}
 
     - uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python_version }}
         cache: 'poetry'
         cache-dependency-path: |
-          ${{ inputs.work_directory }}/poetry.lock
-
+          ${{ inputs.working_directory }}/poetry.lock
     - name: Install poetry dependencies
-      working-directory: ${{ inputs.work_directory }}
+      working-directory: ${{ inputs.working_directory }}
       shell: bash
       run: |
         poetry env use ${{ inputs.python_version }}
         poetry install --no-interaction ${{ inputs.poetry_arguments }}
-
     - name: Print installed packages
-      working-directory: ${{ inputs.work_directory }}
+      working-directory: ${{ inputs.working_directory }}
       shell: bash
       run: |
         poetry run pip list
