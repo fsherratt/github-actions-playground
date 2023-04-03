@@ -16,7 +16,7 @@ runs:
     - name: Make temporary storage location
       shell: bash
       run: | 
-        echo TMP_DIR=${mktemp -d}
+        echo TMP_DIR=$(mktemp -d)
 
     - name: Build documentation
       working-directory: ${{ inputs.working_directory }}
