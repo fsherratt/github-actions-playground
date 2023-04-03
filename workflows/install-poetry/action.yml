@@ -13,8 +13,8 @@ inputs:
 
   poetry_version:
     type: string
-    description: Poetry version string to install, for example `1.4.2`, default is latest version
-    default: '*'
+    description: Poetry version string to install, for example `==1.4.2`, default is latest version
+    default: ''
 
   poetry_arguments:
     type: string
@@ -26,7 +26,7 @@ runs:
   steps:
     - name: Install Poetry
       shell: bash
-      run: pipx install poetry=="${{ inputs.poetry_version }}"
+      run: pipx install poetry${{ inputs.poetry_version }}
 
     - uses: actions/setup-python@v4
       with:
