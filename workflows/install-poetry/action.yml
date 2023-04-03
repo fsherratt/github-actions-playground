@@ -34,12 +34,14 @@ runs:
         cache: 'poetry'
         cache-dependency-path: |
           ${{ inputs.working_directory }}/poetry.lock
+
     - name: Install poetry dependencies
       working-directory: ${{ inputs.working_directory }}
       shell: bash
       run: |
         poetry env use ${{ inputs.python_version }}
         poetry install --no-interaction ${{ inputs.poetry_arguments }}
+
     - name: Print installed packages
       working-directory: ${{ inputs.working_directory }}
       shell: bash

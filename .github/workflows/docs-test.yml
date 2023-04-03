@@ -14,12 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: fsherratt/github-actions-playground/workflows/install-poetry@composable-actions
+      - uses: fsherratt/github-actions-playground/workflows/install-poetry
         with:
           python_version: '3.10'
           working_directory: test/project_2
 
-      - uses: fsherratt/github-actions-playground/workflows/python-docs@composable-actions
+      - uses: fsherratt/github-actions-playground/workflows/python-docs
         with:
           working_directory: test/project_2
 

@@ -5,10 +5,16 @@ inputs:
     type: string
     description: The path to the repository folder containing the poetry environment
     default: '.'
+
   sphinx_arguments:
     type: string
     description: Command line arguments to pass to sphinx install, see python-poetry.org/docs/cli/#install
     default: ''
+
+  retention_period:
+    type: int
+    description: Documentation retention period in days, default is 5 days
+    defaults: 5
 
 runs:
   using: "composite"
@@ -30,4 +36,4 @@ runs:
       with:
         name: Documentation
         path: ${{ steps.temp-dir.outputs.TMP_DIR }}/build
-        retention-days: 5
+        retention-days: ${{ inputs.retention_period }}
