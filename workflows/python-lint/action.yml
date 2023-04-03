@@ -1,0 +1,55 @@
+name: 'Python linting'
+description: 'Run various python linting and formatters to check for static issues'
+
+inputs:
+  work_directory:
+    type: string
+    description: The path to the repository folder containing the poetry environment
+    default: '.'
+
+  run_black:
+    type: string
+    description: Enable black formatted check,`true` enables, `false` disables
+    default: "true" 
+
+  run_mypy:
+    type: string
+    description: Enable mypy check, `true` enables, `false` disables
+    default: "true"
+    
+  run_isort:
+    type: string
+    description: Enable isort check, `true` enables, `false` disables
+    default: "true"
+
+  run_autoflake:
+    type: string
+    description: Enable autoflake check, `true` enables, `false` disables
+    default: "true"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run black
+      shell: bash
+      if: inputs.run_black != 'false' && always()
+      working-directory: ${{ inputs.work_directory }}
+      run: poetry run black $(git ls-files "*.py") --check
+
+    - name: Run mypy
+      shell: bash
+      if: inputs.run_mypy != 'false' && always()
+      working-directory: ${{ inputs.work_directory }}
+      run: poetry run mypy $(git ls-files "*.py")
+
+    - name: Run isort
+      shell: bash
+      if: inputs.run_isort != 'false' && always()
+      working-directory: ${{ inputs.work_directory }}
+      run: poetry run isort --check $(git ls-files "*.py")
+
+    - name: Run autoflake
+      shell: bash
+      if: inputs.run_autoflake != 'false' && always()
+      working-directory: ${{ inputs.work_directory }}
+      run: poetry run autoflake --check $(git ls-files "*.py")

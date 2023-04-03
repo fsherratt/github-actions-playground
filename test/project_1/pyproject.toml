@@ -9,6 +9,19 @@ packages = [{include = "project_1"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 
+[tool.poetry.group.dev.dependencies]
+autoflake = "*"
+black = "*"
+coverage = "*"
+mypy = "*"
+pylint = "*"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"

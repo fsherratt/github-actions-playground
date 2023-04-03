@@ -1,0 +1,39 @@
+name: 'Build Python Docs'
+description: 'Build Python Sphinx documentation'
+inputs:
+  working_directory:
+    type: string
+    description: The path to the repository folder containing the poetry environment
+    default: '.'
+
+  sphinx_arguments:
+    type: string
+    description: Command line arguments to pass to sphinx install, see python-poetry.org/docs/cli/#install
+    default: ''
+
+  retention_period:
+    type: int
+    description: Documentation retention period in days, default is 5 days
+    defaults: 5
+
+runs:
+  using: "composite"
+  steps:
+    - name: Make temporary storage location
+      id: temp-dir
+      shell: bash
+      run: | 
+        echo "TMP_DIR=$(mktemp -d)" >> $GITHUB_OUTPUT
+
+    - name: Build documentation
+      working-directory: ${{ inputs.working_directory }}
+      shell: bash
+      run: |
+        poetry run sphinx-build -b html docs/ ${{ steps.temp-dir.outputs.TMP_DIR }}/build
+
+    - name: Archive test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: Documentation
+        path: ${{ steps.temp-dir.outputs.TMP_DIR }}/build
+        retention-days: ${{ inputs.retention_period }}

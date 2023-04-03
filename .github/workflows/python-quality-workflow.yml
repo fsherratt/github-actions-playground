@@ -18,18 +18,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
+
+      - uses: fsherratt/github-actions-playground/workflows/install-poetry
         with:
-          python-version: '3.10'
-
-      - name: Install code quality dependencies
-        working-directory: ${{ inputs.work_directory }}
-        run: | 
-          pip install black
-          pip list
-
-      - name: Run Black over codebase
-        working-directory: ${{ inputs.work_directory }}
-        run: |
-          black $(git ls-files "*.py") --check --line-length=100
+          python_version: '3.10'
+          working_directory: ${{ inputs.work_directory }}
+  
+      - uses: fsherratt/github-actions-playground/workflows/python-lint
+        with:
+          work_directory: ${{ inputs.work_directory }}

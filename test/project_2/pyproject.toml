@@ -10,6 +10,21 @@ packages = [{include = "project_2"}]
 python = "^3.10"
 project_1 = { path = "./../project_1", develop = true }
 
+[tool.poetry.group.dev.dependencies]
+autoflake = "*"
+black = "*"
+coverage = "*"
+mypy = "*"
+pylint = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
