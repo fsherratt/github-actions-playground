@@ -31,7 +31,6 @@ runs:
 
     - name: Archive test results
       uses: actions/upload-artifact@v3
-      shell: bash
       with:
         name: unit-test-result
         path: ${{ env.TMP_DIR }}/archive.tar.gz
