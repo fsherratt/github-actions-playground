@@ -34,12 +34,11 @@ jobs:
         working-directory: test/project_2
         shell: bash
         run: |
-          PYTHON_VENV="$(poetry env info --path)/Scripts/python"
+          PYTHON_VENV="$(poetry env info --path)/bin/python"
           echo ${PYTHON_VENV}
           ln -s $PYTHON_VENV python
           ls -l
-          ls -l $(poetry env info --path)
-          ls -l $(poetry env info --path)/Scripts
+          ls -l $(poetry env info --path)/bin
 
       - name: Test symlink
         working-directory: test/project_2
