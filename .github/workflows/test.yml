@@ -18,13 +18,14 @@ jobs:
           python_version: '3.10'
           working_directory: test/project_2
 
-      - name: Symlink python venv
-        working-directory: ${{ inputs.working_directory }} 
+      - name: Symlink setup
+        working-directory: test/project_2
+        shell: bash
         run: |
           PYTHON_VENV="$(poetry env info --path)\Scripts\python"
           ln -s $PYTHON_VENV python
 
       - name: Test symlink
-        working-directory: ${{ inputs.working_directory }} 
+        working-directory: test/project_2
         run: |
           python -m pip list
