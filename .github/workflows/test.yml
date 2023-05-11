@@ -28,11 +28,6 @@ jobs:
           poetry env use 3.10
           poetry install --no-interaction
 
-      - uses: fsherratt/github-actions-playground/workflows/python-docs
-        with:
-          working_directory: test/project_2
-
-
       - name: Symlink setup
         working-directory: test/project_2
         shell: bash
