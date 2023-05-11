@@ -38,6 +38,8 @@ jobs:
           echo ${PYTHON_VENV}
           ln -s $PYTHON_VENV python
           ls -l
+          ls -l $(poetry env info --path)
+          ls -l $(poetry env info --path)/Scripts
 
       - name: Test symlink
         working-directory: test/project_2
