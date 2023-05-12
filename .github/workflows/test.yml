@@ -2,10 +2,8 @@
 name: Test Runner
 
 on:
-  # Run during pull request containing python files
-  push:
-    branch: 
-      "test-python-symlink"
+  push
+
 jobs:
   test:
     timeout-minutes: 10
@@ -30,13 +28,13 @@ jobs:
           poetry env use 3.10
           poetry install --no-interaction
 
-      - name: Symlink setup
+      - name: Change PATH
         working-directory: test/project_2
         shell: bash
         run: |
           poetry shell
           echo PATH=$PATH >> $GITHUB_ENV
 
-      - name: Test symlink
+      - name: Test
         run: |
           python -m pip list
