@@ -32,7 +32,7 @@ jobs:
         working-directory: test/project_2
         shell: bash
         run: |
-          echo PATH=$(poetry env info --path)/bin:$PATH >> $GITHUB_ENV
+          echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
 
       - name: Test
         run: |
