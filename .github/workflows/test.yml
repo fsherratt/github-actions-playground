@@ -32,9 +32,9 @@ jobs:
         working-directory: test/project_2
         shell: bash
         run: |
-          poetry shell
-          echo PATH=$PATH >> $GITHUB_ENV
+          echo PATH=$(poetry env info --path)/bin:$PATH >> $GITHUB_ENV
 
       - name: Test
         run: |
+          echo $PATH
           python -m pip list
